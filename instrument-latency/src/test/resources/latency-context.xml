@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                        http://www.springframework.org/schema/aop  http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+
+    <bean id="bookKeeper" class="org.bongiorno.aspects.latency.esper.listeners.BookKeepingLatencyListener"/>
+    <bean class="org.bongiorno.aspects.latency.esper.EsperConfig"/>
+
+
+    <bean id="fiveMinAvgGt1s" class="org.bongiorno.aspects.latency.LatencyAspect">
+        <constructor-arg name="action">
+            <bean class="org.bongiorno.aspects.latency.esper.EsperLatencyListener">
+                <constructor-arg name="esperAdmin" ref="esperAdmin"/>
+                <constructor-arg name="window" value="300000"/>
+                <constructor-arg name="listeners">
+                    <util:set set-class="java.util.LinkedHashSet">
+                        <!-- Bookkeeping must come first-->
+                        <ref bean="bookKeeper"/>
+                        <bean class="org.bongiorno.aspects.latency.esper.listeners.AlertOnLatencyListener">
+                            <constructor-arg value="1000"/>
+                        </bean>
+                    </util:set>
+                </constructor-arg>
+
+            </bean>
+        </constructor-arg>
+    </bean>
+
+    <bean id="fiveMinAvgGt3s" class="org.bongiorno.aspects.latency.LatencyAspect">
+        <constructor-arg name="action">
+            <bean class="org.bongiorno.aspects.latency.esper.EsperLatencyListener">
+                <constructor-arg name="esperAdmin" ref="esperAdmin"/>
+                <constructor-arg name="window" value="300000"/>
+                <constructor-arg name="listeners">
+                    <util:set set-class="java.util.LinkedHashSet">
+                        <!-- Bookkeeping must come first-->
+                        <ref bean="bookKeeper"/>
+                        <bean class="org.bongiorno.aspects.latency.esper.listeners.AlertOnLatencyListener">
+                            <constructor-arg value="3000"/>
+                        </bean>
+                    </util:set>
+                </constructor-arg>
+            </bean>
+        </constructor-arg>
+    </bean>
+
+    <bean id="singleOneGt6s" class="org.bongiorno.aspects.latency.LatencyAspect">
+        <constructor-arg name="action">
+            <bean class="org.bongiorno.aspects.latency.esper.EsperLatencyListener">
+                <constructor-arg name="esperAdmin" ref="esperAdmin"/>
+                <constructor-arg name="window" value="1"/>
+                <constructor-arg name="listeners">
+                    <util:set set-class="java.util.LinkedHashSet">
+                        <!-- Bookkeeping must come first-->
+                        <ref bean="bookKeeper"/>
+                        <bean class="org.bongiorno.aspects.latency.esper.listeners.AlertOnLatencyListener">
+                            <constructor-arg value="6000"/>
+                        </bean>
+                    </util:set>
+                </constructor-arg>
+            </bean>
+        </constructor-arg>
+    </bean>
+
+    <aop:config proxy-target-class="true">
+
+        <!-- Set Order to the lowest value to make sure this is the outermost advice. This logs latency in conjunction with log4j -->
+        <aop:aspect id="profilingAspect" ref="logLatency" order="0">
+            <aop:around method="doAroundAdvice"
+                        pointcut="execution(public * com.viableware.appzone.dao.hibernate.*.*(..))"/>
+            <aop:around method="doAroundAdvice"
+                        pointcut="execution(public * com.viableware.appzone.ws.controllers..*(..))"/>
+        </aop:aspect>
+
+
+    </aop:config>
+
+
+</beans>

@@ -1,0 +1,12 @@
+*.iml
+.idea
+target/
+.classpath
+.project
+.settings/
+node_modules/
+ingest.log*
+vend.log*
+luwak.log*
+df.log*
+~$*
