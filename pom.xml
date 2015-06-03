@@ -5,7 +5,7 @@
     <name>Parent Project</name>
     <groupId>org.bongiorno</groupId>
     <artifactId>parent-project</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <description>Parent project for reusable resources in this repo</description>
@@ -41,10 +41,12 @@
     </properties>
 
     <modules>
-        <module>io-stuff</module>
         <module>misc</module>
+        <module>io-stuff</module>
+        <module>dedup</module>
+        <module>instrument-latency</module>
         <module>ws-parent</module>
-        <module>xml-type-adapters</module>
+        <module>xml-type-adapters-joda</module>
         <module>xml-type-adapters-java</module>
     </modules>
 
@@ -55,6 +57,19 @@
             <version>1.7.10</version>
         </dependency>
 
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.9.5</version>
+            <scope>test</scope>
+        </dependency>
 
     </dependencies>
 

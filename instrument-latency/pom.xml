@@ -7,11 +7,10 @@
     <parent>
         <groupId>org.bongiorno</groupId>
         <artifactId>parent-project</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.1.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>instrument-latency</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <description>Miscellaneous interfaces and implementations for supporting other packages in the same groupId</description>
@@ -91,7 +90,7 @@
         <dependency>
             <groupId>org.bongiorno</groupId>
             <artifactId>misc</artifactId>
-            <version>1.0.2-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
