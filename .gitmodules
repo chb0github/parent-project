@@ -1,0 +1,19 @@
+[submodule "misc"]
+    path = misc
+    url = git@github.com:chb0github/misc.git
+[submodule "io-stuff"]
+    path = io-stuff
+    url = git@github.com:chb0github/io-stuff.git
+[submodule "client-core"]
+    path = ws-parent/client-core
+    url = git@github.com:chb0github/client-core.git
+[submodule "server-core"]
+    path = ws-parent/server-core
+    url = git@github.com:chb0github/server-core.git
+[submodule "ws-core"]
+    path = ws-parent/ws-core
+    url = git@github.com:chb0github/ws-core.git
+[submodule "xml-type-adapters-joda"]
+    path = xml-type-adapters-joda
+    url = git@github.com:chb0github/xml-type-adapters-joda.git
+
